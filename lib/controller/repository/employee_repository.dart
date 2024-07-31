@@ -6,8 +6,8 @@ import "package:pixel6_app/model/employee_model.dart";
 String baseUrl = "https://dummyjson.com/users";
 
 class EmployeeRepository {
-  Future getEmployeeDetails() async {
-    final url = Uri.parse(baseUrl);
+  Future getEmployeeDetails(int limit, int skip) async {
+    final url = Uri.parse('$baseUrl?limit=$limit&skip=$skip');
     final response = await http.get(url);
 
     try {
@@ -15,7 +15,6 @@ class EmployeeRepository {
         final data = jsonDecode(response.body);
         List employees = data['users'];
 
-    print("length is ${employees.length}");
         return employees.map((data) => Employee.fromJson(data)).toList();
       }
     } catch (e) {

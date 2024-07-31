@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pixel6_app/controller/bloc/employee_bloc.dart';
+import 'package:pixel6_app/controller/employee_bloc/employee_bloc.dart';
 
 import 'package:pixel6_app/view/home_screen.dart';
 import 'package:pixel6_app/controller/repository/employee_repository.dart';

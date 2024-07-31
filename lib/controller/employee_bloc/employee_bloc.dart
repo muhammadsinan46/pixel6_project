@@ -13,19 +13,27 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
  EmployeeRepository   employeeRepo ;
   EmployeeBloc(this.employeeRepo) : super(const EmployeeState()){
 
-  
+    
     on<EmployeeLoadedEvent>(employeeDataLoaded);
   }
 
+  int limit =10;
+  int skip =0;
+List<Employee> employeeList =[];
  FutureOr<void> employeeDataLoaded(EmployeeLoadedEvent event, Emitter<EmployeeState> emit)async {
+
+
 
     emit(EmployeeLoadingState());
 
     try{
 
-      final employeeList = await employeeRepo.getEmployeeDetails();
-
+      final List<Employee> employData = await employeeRepo.getEmployeeDetails(limit, skip);
+      employeeList.addAll(employData);
+ 
       emit(EmployeeLoadedState(employeeList: employeeList));
+      limit+10;
+      skip=skip+10;
     }catch(e){
 
 
