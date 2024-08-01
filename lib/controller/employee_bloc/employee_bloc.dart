@@ -16,7 +16,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
     on<EmployeeSortEvent>(employeeListSort);
   }
 
-  int limit = 10;
+  int limit = 16;
   int skip = 0;
   List<Employee> employeeList = [];
   bool ascending = false;
@@ -33,8 +33,8 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       employeeList.addAll(employData);
 
       emit(EmployeeLoadedState(employeeList: employeeList));
-      limit + 10;
-      skip = skip + 10;
+      limit + 16;
+      skip = skip + 16;
     } catch (e) {
       Exception(e.toString());
     }

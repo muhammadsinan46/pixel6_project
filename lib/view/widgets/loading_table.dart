@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:pixel6_app/model/employee_model.dart';
-import 'package:pixel6_app/utils/utils.dart';
+
+import 'package:shimmer/shimmer.dart';
 
 class LoadingTable extends StatelessWidget {
   const LoadingTable({
@@ -19,34 +20,51 @@ class LoadingTable extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(30)),
-        columns: const [
-          DataColumn(
-              label: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [Text("ID "), Icon(Icons.swap_vert)],
-          )),
-          DataColumn(label: Text("Image")),
-          DataColumn(
-              label: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [Text("Full Name "), Icon(Icons.swap_vert)],
-          )),
-          DataColumn(label: Text("Demography")),
-          // DataColumn(label: Text("Designation")),
-          // DataColumn(label: Text("Location")),
-        ],
-        rows: List.generate(employList.length, (index) {
+        columns:  const  [
+            DataColumn(
+                label: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [Text("ID "), Icon(Icons.swap_vert)],
+                            )),
+            DataColumn(label: Text("Image")),
+            DataColumn(
+                label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [Text("Full Name"), Icon(Icons.swap_vert)],
+                            )),
+            DataColumn(
+                label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [Text("Demography"), Icon(Icons.swap_vert)],
+                            )),
+          ],
+        rows: List.generate(employList.isEmpty?16:employList.length, (index) {
           return DataRow(cells: [
-            DataCell(Text("${employList[index].id}")),
-            DataCell(SizedBox(
-                width: 50, child: Image.network("${employList[index].image}"))),
-            DataCell(Text(
-                "${employList[index].firstName} ${employList[index].maidenName}")),
-            DataCell(Text(
-                "${demographyFormatter("${employList[index].gender}", employList[index].age.toString())}")),
-            // DataCell(Text("${employList[index].company!.title}")),
-            // DataCell(Text(
-            //     "${employList[index].address!.state}, ${employList[index].address!.country}")),
+            DataCell(Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+              child: Text("${index+1}"))),
+            DataCell(Shimmer.fromColors(
+                       baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+              child: SizedBox(
+                  width: 50, child: Image.asset('assets/images/pixel_logo.png')),
+            )),
+            DataCell(Shimmer.fromColors(
+                       baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+              child: Text(
+                  "Full name"),
+            )),
+            DataCell(Shimmer.fromColors(
+                       baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+              child: const Text(
+                          "Gender"
+                  ),
+            )),
+    
           ]);
         }));
   }

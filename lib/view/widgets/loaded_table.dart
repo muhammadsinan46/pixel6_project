@@ -11,10 +11,12 @@ class EmployeeDataTable extends StatelessWidget {
 
   List<Employee> employeeList;
 
+
+
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fill,
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       child: DataTable(
       
           headingTextStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -25,9 +27,11 @@ class EmployeeDataTable extends StatelessWidget {
           columns:  [
             DataColumn(
                 label: GestureDetector(
-
+      
                   onTap: () {
+                    
                     context.read<EmployeeBloc>().add(const EmployeeSortEvent(sortItem: "id"));
+                    
                   },
                   child:const  Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +52,7 @@ class EmployeeDataTable extends StatelessWidget {
                 )),
             DataColumn(
                 label: GestureDetector(
-
+      
                     onTap: () {
                     context.read<EmployeeBloc>().add(const EmployeeSortEvent(sortItem: "age"));
                   },

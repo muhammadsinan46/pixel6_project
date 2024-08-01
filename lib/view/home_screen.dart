@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-     context.read<EmployeeBloc>().add(EmployeeLoadedEvent());
+    context.read<EmployeeBloc>().add(EmployeeLoadedEvent());
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -34,8 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       appBar: AppBar(
           leading: Padding(
@@ -53,78 +51,67 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           ]),
-      body: ListView(
-        controller: _scrollController,
-        //    physics: NeverScrollableScrollPhysics(),
-        //  mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Employees",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Icon(Icons.filter_alt),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    DropdownMenu(
-                      enableSearch: false,
-                      label: const Text("Gender"),
-                      dropdownMenuEntries:
-                          ["Male", "Female","Default"].map<DropdownMenuEntry>((value) {
-                        return DropdownMenuEntry(value: value, label: value);
-                      }).toList(),
-                      onSelected: (value) {
-                        setState(() {
-                          genderValue = value;
-                          context.read<EmployeeBloc>().add(
-                              EmployeeGenderFilterEvent(
-                                  genderValue: genderValue));
-                        });
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          Container(
+      body:
+      
+       NestedScrollView(
+          controller: _scrollController,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                surfaceTintColor: Colors.white,
+                title: const Text("Employees"),
+                titleTextStyle: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
+                actions: [
+                  const Icon(Icons.filter_alt, color: Color.fromARGB(255, 167, 18, 7),),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  DropdownMenu(
+                    enableSearch: false,
+                    label: const Text("Gender"),
+                    dropdownMenuEntries: ["Male", "Female", "Default"]
+                        .map<DropdownMenuEntry>((value) {
+                      return DropdownMenuEntry(value: value, label: value);
+                    }).toList(),
+                    onSelected: (value) {
+                      setState(() {
+                        genderValue = value;
+                        context.read<EmployeeBloc>().add(
+                            EmployeeGenderFilterEvent(
+                                genderValue: genderValue));
+                      });
+                    },
+                  )
+                ],
+                pinned: true,
+              )
+            ];
+          },
+          body:
+          
+           Container(
             height: MediaQuery.sizeOf(context).height,
-            margin: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(top:20, left: 12, right: 12, ),
             width: MediaQuery.sizeOf(context).width,
             child: BlocBuilder<EmployeeBloc, EmployeeState>(
               builder: (context, state) {
-                print(state.runtimeType);
+        
                 if (state is EmployeeLoadingState) {
+                  //loading data table enables skelton view while loading the data
                   return LoadingTable(employList: employList);
                 } else if (state is EmployeeLoadedState) {
                   employList = state.employeeList;
-                
-                  return SingleChildScrollView(
-                      // controller: _scrollController,
-                      // slivers: [
-                      //   SliverToBoxAdapter(
-                      child: EmployeeDataTable(employeeList: employList));
-                }  else {
+
+                  //employeedatatable enables fetch the data and infite scrolling
+                  return EmployeeDataTable(employeeList: employList);
+                } else {
                   return const Center(
                     child: Text("Oops!. No Data Available"),
                   );
                 }
               },
             ),
-          )
-        ],
-      ),
+          )),
     );
   }
 }
