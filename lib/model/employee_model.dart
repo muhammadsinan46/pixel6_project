@@ -12,8 +12,7 @@ class Employee {
   String? birthDate;
   String? image;
   String? bloodGroup;
-  double? height;
-  double? weight;
+
   String? eyeColor;
 
   String? ip;
@@ -42,8 +41,7 @@ class Employee {
       this.birthDate,
       this.image,
       this.bloodGroup,
-      this.height,
-      this.weight,
+ 
       this.eyeColor,
       this.ip,
       this.address,
@@ -69,8 +67,7 @@ class Employee {
     birthDate = json['birthDate'];
     image = json['image'];
     bloodGroup = json['bloodGroup'];
-    height = json['height'];
-    weight = json['weight'];
+
     eyeColor = json['eyeColor'];
     ip = json['ip'];
     address =
@@ -102,8 +99,7 @@ class Employee {
     data['birthDate'] = birthDate;
     data['image'] = image;
     data['bloodGroup'] = bloodGroup;
-    data['height'] = height;
-    data['weight'] = weight;
+
     data['eyeColor'] = eyeColor;
 
     data['ip'] = ip;
